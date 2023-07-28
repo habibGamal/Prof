@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use App\Traits\DetermineGuard;
 class AuthenticatedSessionController extends Controller
 {
+    use DetermineGuard;
+
     /**
      * Display the login view.
      */
@@ -30,7 +32,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->authenticate($this->guard());
 
         $request->session()->regenerate();
 
@@ -42,7 +44,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::guard($this->guard())->logout();
 
         $request->session()->invalidate();
 

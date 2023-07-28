@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use App\Traits\DetermineGuard;
 class RegisteredUserController extends Controller
 {
+    use DetermineGuard;
     /**
      * Display the registration view.
      */
@@ -33,11 +34,11 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'email' => 'required|string|email|max:255|unique:'.$this->guard(),
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        $user = $this->authClass()::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

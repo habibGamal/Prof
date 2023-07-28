@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Traits\DetermineGuard;
 
 class ConfirmablePasswordController extends Controller
 {
+    use DetermineGuard;
     /**
      * Show the confirm password view.
      */
@@ -26,8 +28,8 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
+        if (!Auth::guard($this->guard())->validate([
+            'email' => $request->user($this->guard())->email,
             'password' => $request->password,
         ])) {
             throw ValidationException::withMessages([
