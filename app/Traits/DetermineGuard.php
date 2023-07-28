@@ -3,10 +3,10 @@
 namespace App\Traits;
 
 use App\Models\Admin;
+use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\User;
 
-class DetermineGuard
+trait DetermineGuard
 {
 
     public function guard()
@@ -17,7 +17,7 @@ class DetermineGuard
         } elseif ($request->is('teachers/*')) {
             return 'teachers';
         } else {
-            return 'users';
+            return 'students';
         }
     }
 
@@ -29,7 +29,7 @@ class DetermineGuard
         } elseif ($request->is('teachers/*')) {
             return Teacher::class;
         } else {
-            return User::class;
+            return Student::class;
         }
     }
 }

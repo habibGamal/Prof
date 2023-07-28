@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'users',
-        'passwords' => 'users',
+        'guard' => 'students',
+        'passwords' => 'students',
     ],
 
     /*
@@ -36,9 +36,9 @@ return [
     */
 
     'guards' => [
-        'users' => [
+        'students' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'students',
         ],
 
         'teachers' => [
@@ -70,9 +70,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'students' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Student::class,
         ],
 
         'teachers' => [
@@ -111,8 +111,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'students' => [
+            'provider' => 'students',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
