@@ -40,6 +40,12 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class)->as('subscription')
+        ->withTimestamps();
+    }
+
+    public function codesRequests()
+    {
+        return $this->hasMany(CodesRequest::class);
     }
 }

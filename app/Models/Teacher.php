@@ -53,4 +53,9 @@ class Teacher  extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function videos()
+    {
+        return $this->hasManyThrough(Video::class, Course::class);
+    }
+
 }

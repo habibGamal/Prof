@@ -1,13 +1,13 @@
 <?php
 
-use App\Models\User;
+use App\Models\Student;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 
 test('email verification screen can be rendered', function () {
-    $user = User::factory()->create([
+    $user = Student::factory()->create([
         'email_verified_at' => null,
     ]);
 
@@ -17,14 +17,14 @@ test('email verification screen can be rendered', function () {
 });
 
 test('email can be verified', function () {
-    $user = User::factory()->create([
+    $user = Student::factory()->create([
         'email_verified_at' => null,
     ]);
 
     Event::fake();
 
     $verificationUrl = URL::temporarySignedRoute(
-        'verification.verify',
+        'students.verification.verify',
         now()->addMinutes(60),
         ['id' => $user->id, 'hash' => sha1($user->email)]
     );
@@ -37,12 +37,12 @@ test('email can be verified', function () {
 });
 
 test('email is not verified with invalid hash', function () {
-    $user = User::factory()->create([
+    $user = Student::factory()->create([
         'email_verified_at' => null,
     ]);
 
     $verificationUrl = URL::temporarySignedRoute(
-        'verification.verify',
+        'students.verification.verify',
         now()->addMinutes(60),
         ['id' => $user->id, 'hash' => sha1('wrong-email')]
     );
